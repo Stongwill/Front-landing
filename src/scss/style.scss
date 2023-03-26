@@ -1,56 +1,8 @@
 @use "sass:math";
 
-// &display=swap
-
-// @import "null";
-// @import "fonts";
-@import "mixins";
-
-
-$minWidthDevice: 320;
-$maxWidthDevice: 1920;
-$maxWidthContainer: 1270;
-$mobile: em(359.98);
-$tablet: em(767.98);
-
-
-html{
-    scroll-behavior: smooth;
-}
-.wrapper{
-    min-height: 100%;
-	display: flex;
-	flex-direction: column;
-	overflow: hidden;
-    // Прижатие футера
-	> main {
-		flex: 1 1 auto;
-	}
-}
-body{
-    // @include adaptive-property("font-size", 70, 30, 1240, 767);
-}
 body.noscroll{
 	overflow: hidden;
 }
-// Аккордион
-// @import "templates/accordion";
-
-// Бургер
-// @import "templates/burger";
-
-// Рейтинг
-// @import "templates/rating";
-
-// Popup
-// @import "templates/popup";
-
-// Показать полностью(развернуть-свернуть)
-// @import "templates/show-more";
-
-@import "header";
-@import "footer";
-
 
 @import "bootstrap.css";
 @import "../slick/slick.css";
