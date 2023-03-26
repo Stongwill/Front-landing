@@ -1,0 +1,38 @@
+.header {
+    &__burger-icon {
+        position: relative;
+        cursor: pointer;
+        width: 30px;
+        height: 20px;
+        transition: all .3s ease 0s;
+        &::after, &::before, span{
+            position: absolute;
+            left: 0;
+            width: 30px;
+            height: 10%;
+            background-color: #000;
+            transition: all .3s ease 0s;
+        }
+        &::after{
+            content: '';
+            bottom: 0;
+        }
+        &::before{
+            content: '';
+            top: 0;
+        }
+        &.active{
+            &::after{
+                bottom: 50%;
+                transform: rotate(45deg) translateY(50%);
+            }
+            &::before{
+                top: 50%;
+                transform: rotate(-45deg) translateY(-50%);
+            }
+            span{
+                transform: scale(0);
+            } 
+        }
+    }
+}

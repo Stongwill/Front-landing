@@ -1,0 +1,54 @@
+
+@mixin font($file_name, $name, $weight, $style) {
+    @font-face {
+        font-family: $name;
+        font-display: swap;
+        src: url("../fonts/#{$file_name}.woff") format("woff"),
+             url("../fonts/#{$file_name}.woff2") format("woff2");
+             font-weight: #{$weight};
+             font-style: #{$style};
+    }
+}
+
+@function percent($px, $from){
+     @return math.div($px, $from) * 100%;
+}
+@function rem($px, $start: 16){
+     @return math.div($px, $start) + rem;
+}
+@function em($px, $start: 16){
+     @return math.div($px, $start) + em;
+}
+
+// необходимое свойство, начальное значения, конечное значение, от определенной ширины, до необходимой ширины, опция
+@mixin adaptive-property($requiredProperty, $initialValue, $minSize, $widthFrom: $maxWidthContainer, $widthBefore: $minWidthDevice, $storeSize: 0){
+   // проверка, если нет заданных параметров ширины, тогда будет начитаться с максимальной ширины экрана 
+    @if($widthFrom == $maxWidthContainer and $maxWidthContainer == 0){
+        $widthFrom: $maxWidthDevice;
+    }
+
+    $slopaMath: math.div(($initialValue - $minSize), ($widthFrom - $widthBefore));
+    $intersectionY: -$widthBefore * $slopaMath + $minSize;
+    $flyProperty: #{rem($intersectionY)}" + " #{$slopaMath * 100}vw;
+
+    //clamp - сжимает значения и выбирает среднее от min и max
+    //Он принимает 3 параметра: 
+    // - min значение
+    // - предпочтительное значение 
+    // - max допустимое значение.
+    $valueProperty: #{"clamp(" rem($minSize) "," $flyProperty "," rem($initialValue) ")"};
+
+    @if ($widthFrom == $maxWidthContainer or $widthFrom == $maxWidthDevice or $storeSize == 1 or $storeSize == 2){
+        @media (min-width: em($widthFrom)){
+            #{$requiredProperty}: rem($initialValue);
+        }
+    }
+    @media (min-width: em($widthBefore)) and (max-width: em($widthFrom)){
+        #{$requiredProperty}: $valueProperty;
+    }
+    @if($widthBefore == $minWidthDevice or $storeSize == 1 or $storeSize == 3){
+        @media (max-width: em($widthBefore)) {
+            #{$requiredProperty}: rem($minSize)
+        }
+    }
+}
